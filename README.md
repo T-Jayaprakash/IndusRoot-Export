@@ -85,6 +85,14 @@ Then open `http://localhost:8080` in your web browser.
 
 ---
 
+## 📞 Direct Trade Desk
+
+- **WhatsApp / Phone**: [+91 96293 00614](https://wa.me/919629300614)
+- **Email**: exports@indusroots.com
+- **Location**: Pollachi - Coimbatore Agri Corridor, Tamil Nadu, India
+
+---
+
 ## 📄 License & Attribution
 
 © 2026 **Indus Roots Exports**. All rights reserved.  

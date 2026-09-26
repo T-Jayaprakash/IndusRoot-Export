@@ -7,9 +7,9 @@
 // Official Company Contact Information
 const COMPANY_CONFIG = {
   name: "Indus Roots Exports",
-  whatsappNumber: "919443322110", // Primary business WhatsApp (Tamil Nadu, India)
+  whatsappNumber: "919629300614", // Primary business WhatsApp (Tamil Nadu, India)
   email: "exports@indusroots.com",
-  phone: "+91 94433 22110",
+  phone: "+91 96293 00614",
   address: "Pollachi - Coimbatore Agri & Coir Corridor, Tamil Nadu, India",
   ports: "Tuticorin (V.O. Chidambaranar) & Chennai Ports"
 };
