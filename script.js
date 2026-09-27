@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAccordions();
   initFloatingWhatsApp();
   highlightActiveNav();
+  initBottomTicker();
 });
 
 /**
@@ -528,5 +529,23 @@ function initFloatingWhatsApp() {
     const defaultText = encodeURIComponent("Hello Indus Roots Exports, I would like to inquire about your export products and sourcing capabilities from India.");
     floatBtn.setAttribute('href', `https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${defaultText}`);
     floatBtn.setAttribute('target', '_blank');
+  }
+}
+
+/**
+ * 7. Running Continuous Bottom Ticker
+ */
+function initBottomTicker() {
+  const ticker = document.querySelector('.bottom-ticker');
+  if (!ticker) return;
+
+  const track = ticker.querySelector('.ticker-track');
+  if (!track) return;
+
+  const contents = track.querySelectorAll('.ticker-content');
+  if (contents.length === 1) {
+    const clone = contents[0].cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    track.appendChild(clone);
   }
 }

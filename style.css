@@ -123,45 +123,94 @@ p:last-child {
   color: #f7cb73;
 }
 
-/* Top Trust Bar */
-.top-bar {
+/* Running Trade Ticker (Continuous Sticky Bottom Bar) */
+body {
+  padding-bottom: 38px;
+}
+
+.bottom-ticker {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 38px;
   background-color: var(--navy-dark);
   color: #cbd5e1;
-  font-size: 12px;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-.top-bar-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.top-bar-info {
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 950;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 20px;
+  border-top: 1px solid rgba(217, 139, 22, 0.45);
+  box-shadow: 0 -4px 20px rgba(7, 23, 45, 0.35);
+  user-select: none;
 }
-.top-bar-info span {
+
+.ticker-track {
+  display: inline-flex;
+  width: max-content;
+  white-space: nowrap;
+  animation: tickerSlide 35s linear infinite;
+  will-change: transform;
+}
+
+.bottom-ticker:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+.ticker-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  padding-right: 28px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ticker-item {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  color: #cbd5e1;
 }
-.top-bar-info strong {
-  color: #fff;
+
+.ticker-item strong {
+  color: #ffffff;
   font-weight: 600;
 }
-.top-bar-links {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+
+.ticker-item a {
+  color: #f7cb73;
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
 }
-.top-bar-links a {
-  color: #94a3b8;
+
+.ticker-item a:hover {
+  color: #ffffff;
+  text-decoration: underline;
 }
-.top-bar-links a:hover {
-  color: #fff;
+
+.ticker-sep {
+  color: var(--gold);
+  font-size: 11px;
+  opacity: 0.85;
+  display: inline-block;
+}
+
+@keyframes tickerSlide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Hide legacy top-bar if present */
+.top-bar {
+  display: none !important;
 }
 
 /* Header & Navigation */
@@ -1496,7 +1545,7 @@ textarea.form-control {
 /* Floating WhatsApp Button */
 .floating-whatsapp {
   position: fixed;
-  bottom: 28px;
+  bottom: 56px;
   right: 28px;
   z-index: 990;
   display: flex;
@@ -1629,6 +1678,12 @@ textarea.form-control {
 }
 
 @media (max-width: 768px) {
+  body {
+    padding-bottom: 0;
+  }
+  .bottom-ticker {
+    display: none;
+  }
   .top-bar {
     display: none;
   }
