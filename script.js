@@ -10,7 +10,8 @@ const COMPANY_CONFIG = {
   whatsappNumber: "919629300614", // Primary business WhatsApp (Tamil Nadu, India)
   email: "exports@indusroots.com",
   phone: "+91 96293 00614",
-  address: "Pollachi - Coimbatore Agri & Coir Corridor, Tamil Nadu, India",
+  phone2: "+91 88701 00614",
+  address: "No. 183/1C33, Vadugapatti, Sri Sai Ram Nagar, Devali Road, Kumaramangalam, Kulathur Taluk, Pudukkottai - 622515, Tamil Nadu, India",
   ports: "Tuticorin (V.O. Chidambaranar) & Chennai Ports"
 };
 
