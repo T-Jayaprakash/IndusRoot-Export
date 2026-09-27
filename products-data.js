@@ -144,7 +144,7 @@ const PRODUCTS_DATA = [
     category: "vegetables",
     categoryLabel: "Indus Fresh · Fresh Agricultural Produce",
     badge: "Geographic Specialty",
-    image: "assets/vegetables.jpg",
+    image: "assets/shallots.jpg",
     shortDesc: "Pungent, authentic pink-red Tamil Nadu shallots. Naturally sun-cured with intact papery skins, ideal for Gulf, Southeast Asian, and European distribution.",
     fullDesc: "Sourced from the fertile red soil belts of Perambalur and Tiruchirappalli, Tamil Nadu's indigenous small onions (shallots) are renowned for their potent flavor, medicinal pungency, and natural culinary qualities. We grade our shallots meticulously for size uniformity, ensuring zero sprouting, rots, or soil residue.",
     specs: {
@@ -163,8 +163,7 @@ const PRODUCTS_DATA = [
       "Supermarket Retail Produce Sections"
     ],
     gallery: [
-      "assets/vegetables.jpg",
-      "assets/fresh-produce-export.jpg",
+      "assets/shallots.jpg",
       "assets/process-source.jpg"
     ]
   },
@@ -174,7 +173,7 @@ const PRODUCTS_DATA = [
     category: "vegetables",
     categoryLabel: "Indus Fresh · Fresh Agricultural Produce",
     badge: "High Pungency",
-    image: "assets/fresh-produce-export.jpg",
+    image: "assets/green-chillies.jpg",
     shortDesc: "Crisp, spicy G4 and Kiran green chillies with fresh green stems intact. Carefully pre-cooled and packed for immediate international air shipment.",
     fullDesc: "Indus Roots delivers premium Indian green chillies with high heat levels and crisp texture. Hand-picked at dawn to preserve stalk greenness, sorted for uniform length, and packed into pre-cooled cartons to prevent condensation and transit shrinkage.",
     specs: {
@@ -193,8 +192,8 @@ const PRODUCTS_DATA = [
       "Chilli Sauce & Food Seasoning Manufactures"
     ],
     gallery: [
-      "assets/fresh-produce-export.jpg",
-      "assets/vegetables.jpg"
+      "assets/green-chillies.jpg",
+      "assets/fresh-produce-export.jpg"
     ]
   },
   {
@@ -203,7 +202,7 @@ const PRODUCTS_DATA = [
     category: "vegetables",
     categoryLabel: "Indus Fresh · Fresh Fruits & Produce",
     badge: "Export Standard",
-    image: "assets/vegetables.jpg",
+    image: "assets/bananas-g9.jpg",
     shortDesc: "Premium G9 green export bananas. Calibrated hands, treated against crown rot, and vacuum-sealed in export cartons for sea reefer transit.",
     fullDesc: "Sourced from GAP-certified banana plantations in Tamil Nadu's Cauvery river delta, our Grand Nain (G9) bananas adhere to stringent global export parameters. Hands are washed in alum solution, treated with approved organic fungicides, and vacuum-packed with ethylene absorbent pouches to ensure arrival in fresh green condition at destination ports.",
     specs: {
@@ -222,7 +221,7 @@ const PRODUCTS_DATA = [
       "Institutional Food Service"
     ],
     gallery: [
-      "assets/vegetables.jpg",
+      "assets/bananas-g9.jpg",
       "assets/process-export.jpg"
     ]
   },
