@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=3.0">
+  <link rel="stylesheet" href="style.css?v=3.1">
   <!-- Bulletproof Sticky Running Ticker Styles -->
   <style id="ticker-inline-css">
     body { padding-bottom: 40px !important; }
@@ -175,8 +175,8 @@
             <button class="filter-btn" data-category="vegetables">Indus Fresh (Produce)</button>
             <button class="filter-btn" data-category="customized">Custom Sourced</button>
           </div>
-          <div style="display: flex; align-items: center; gap: 16px;">
-            <span id="resultCount" style="font-size: 13.5px; color: var(--muted); white-space: nowrap;">Loading catalog...</span>
+          <div class="filter-search-group">
+            <span id="resultCount" class="result-count">Loading catalog...</span>
             <div class="search-box">
               <span class="search-icon">🔍</span>
               <input type="text" id="productSearchInput" placeholder="Search by name, spec, or grade..." aria-label="Search Products">
