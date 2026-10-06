@@ -27,6 +27,7 @@ Old pages from the first version (blog, services, quote, etc.) are permanently r
 - **Enquiry form** (`script.js`): validates the form, then opens WhatsApp (+91 88701 00614) or the visitor's email app (exports@indusroots.com) with the enquiry pre-filled. No backend is needed. To change the number or email, edit `WHATSAPP_NUMBER` / `EMAIL` at the top of `script.js` and the links in the HTML.
 - **Language selector**: uses Google Translate. The Google script loads only after a visitor picks a language other than English. Brand names are marked `translate="no"`.
 - **Images**: `assets/img/*.webp`, each with a `-800.webp` copy for phones. `assets/img/og-image.jpg` is the link-preview image for WhatsApp, LinkedIn and Facebook.
+- **Colour themes**: two brand themes, Navy &amp; Gold (`navy`, the default) and Gold &amp; Navy (`gold`). All colours are CSS variables under `[data-theme="…"]` at the top of `style.css`. `theme.js` applies the theme before the page paints. `/admin` previews and switches the theme in your own browser and copies preview links like `/?theme=gold`. To change the theme every visitor sees, set `DEFAULT_THEME` in `theme.js`.
 - **No build step.** Edit the HTML directly. Header and footer are repeated in every page, so change them in all 7 files.
 
 ## Run locally

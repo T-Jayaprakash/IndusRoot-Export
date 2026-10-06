@@ -2,19 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <base href="/">
-  <meta name="robots" content="noindex">
+  <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Page not found | Indus Roots Exports</title>
-  <meta name="description" content="The page you are looking for could not be found.">
-  <link rel="canonical" href="https://indusroots.com/404">
+  <title>Admin: Theme | Indus Roots Exports</title>
+  <meta name="description" content="Website theme settings.">
+  <link rel="canonical" href="https://indusroots.com/admin">
   <meta name="theme-color" content="#0b2457">
   <script src="theme.js?v=20261006b"></script>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Indus Roots Exports">
-  <meta property="og:title" content="Page not found | Indus Roots Exports">
-  <meta property="og:description" content="The page you are looking for could not be found.">
-  <meta property="og:url" content="https://indusroots.com/404">
+  <meta property="og:title" content="Admin: Theme | Indus Roots Exports">
+  <meta property="og:description" content="Website theme settings.">
+  <meta property="og:url" content="https://indusroots.com/admin">
   <meta property="og:image" content="https://indusroots.com/assets/img/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -75,18 +74,92 @@
 </div>
 <div id="google_translate_element"></div>
 
-<main id="main" class="notfound">
-  <div>
-    <h1>404</h1>
-    <h2 style="color:var(--green-800)">This page has moved or no longer exists.</h2>
-    <p style="color:var(--muted)">Our website has been simplified. You will find everything on the pages below.</p>
-    <p style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px">
-      <a class="btn btn--green" href="index.html">Home</a>
-      <a class="btn btn--ghost" href="products.html">Products</a>
-      <a class="btn btn--coir" href="contact.html">Contact</a>
-    </p>
+<main id="main" class="admin">
+  <div class="wrap">
+    <div class="admin__head">
+      <span class="eyebrow">Admin</span>
+      <h1>Website colour theme</h1>
+      <p>Choose between the two brand themes. Click <strong>Apply</strong> to see the whole website in that theme, or send a preview link to the client.</p>
+    </div>
+    <div class="themes">
+      <article class="theme-card" data-theme-card="navy">
+        <div class="mock" data-theme="navy" aria-hidden="true">
+          <div class="mock__bar"><i></i><b></b></div>
+          <div class="mock__hero"><div class="mock__panel"><i></i><i></i><b></b></div><div class="mock__photo"></div></div>
+          <div class="mock__body"><div class="k"></div><div class="h"></div><div class="cards"><span></span><span></span><span></span><span></span></div><div class="vh"></div></div>
+        </div>
+        <div class="theme-card__body">
+          <h2>Theme 1: Navy &amp; Gold <span class="badge">Active on this browser</span></h2>
+          <p>Logo colours. Navy header, hero and footer with gold buttons and highlights.</p>
+          <div class="swatches"><span style="background:#0a1a3f" title="#0a1a3f"></span><span style="background:#0b2457" title="#0b2457"></span><span style="background:#163a85" title="#163a85"></span><span style="background:#e0a20f" title="#e0a20f"></span><span style="background:#f3c64d" title="#f3c64d"></span></div>
+          <div class="theme-card__actions">
+            <button class="btn btn--coir btn--sm" type="button" data-apply="navy">Apply this theme</button>
+            <a class="btn btn--ghost btn--sm" href="index.html?theme=navy" target="_blank" rel="noopener">Preview site</a>
+            <button class="btn btn--ghost btn--sm" type="button" data-copy="navy">Copy preview link</button>
+          </div>
+        </div>
+      </article>
+      <article class="theme-card" data-theme-card="gold">
+        <div class="mock" data-theme="gold" aria-hidden="true">
+          <div class="mock__bar"><i></i><b></b></div>
+          <div class="mock__hero"><div class="mock__panel"><i></i><i></i><b></b></div><div class="mock__photo"></div></div>
+          <div class="mock__body"><div class="k"></div><div class="h"></div><div class="cards"><span></span><span></span><span></span><span></span></div><div class="vh"></div></div>
+        </div>
+        <div class="theme-card__body">
+          <h2>Theme 2: Gold &amp; Navy <span class="badge">Active on this browser</span></h2>
+          <p>Gold header, hero and highlights with navy for text, buttons and the footer.</p>
+          <div class="swatches"><span style="background:#dc9f09" title="#dc9f09"></span><span style="background:#e5a812" title="#e5a812"></span><span style="background:#fcefcc" title="#fcefcc"></span><span style="background:#0b2457" title="#0b2457"></span><span style="background:#0a1a3f" title="#0a1a3f"></span></div>
+          <div class="theme-card__actions">
+            <button class="btn btn--coir btn--sm" type="button" data-apply="gold">Apply this theme</button>
+            <a class="btn btn--ghost btn--sm" href="index.html?theme=gold" target="_blank" rel="noopener">Preview site</a>
+            <button class="btn btn--ghost btn--sm" type="button" data-copy="gold">Copy preview link</button>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div class="admin__note">
+      <h3>How it works</h3>
+      <ul>
+        <li><strong>Apply</strong> changes the theme in <em>this browser</em> only, so you can browse every page in that theme.</li>
+        <li><strong>Copy preview link</strong> gives a link (e.g. <code>/?theme=gold</code>) that opens the site in that theme. Send it to the client to compare.</li>
+        <li>Visitors see the default theme: <strong data-default-name></strong>. To change it for everyone, set <code>DEFAULT_THEME</code> in <code>theme.js</code> to <code>"navy"</code> or <code>"gold"</code> and redeploy.</li>
+      </ul>
+      <p style="margin:14px 0 0"><button class="btn btn--ghost btn--sm" type="button" data-reset>Reset this browser to the default theme</button></p>
+    </div>
   </div>
 </main>
+<div class="toast" role="status" aria-live="polite"></div>
+<script>
+(function () {
+  var T = window.IR_THEME, names = { navy: "Theme 1: Navy & Gold", gold: "Theme 2: Gold & Navy" };
+  var toast = document.querySelector(".toast"), timer;
+  function say(msg) { toast.textContent = msg; toast.classList.add("is-on"); clearTimeout(timer); timer = setTimeout(function () { toast.classList.remove("is-on"); }, 2200); }
+  function mark(t) {
+    document.documentElement.setAttribute("data-theme", t);
+    document.querySelectorAll("[data-theme-card]").forEach(function (c) { c.classList.toggle("is-current", c.getAttribute("data-theme-card") === t); });
+  }
+  document.querySelector("[data-default-name]").textContent = names[T.DEFAULT];
+  mark(T.current);
+  document.querySelectorAll("[data-apply]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var t = b.getAttribute("data-apply");
+      try { localStorage.setItem(T.KEY, t); } catch (e) {}
+      mark(t); say(names[t] + " applied in this browser");
+    });
+  });
+  document.querySelectorAll("[data-copy]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var url = location.origin + "/?theme=" + b.getAttribute("data-copy");
+      (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(
+        function () { say("Copied: " + url); }, function () { window.prompt("Copy this link:", url); });
+    });
+  });
+  document.querySelector("[data-reset]").addEventListener("click", function () {
+    try { localStorage.removeItem(T.KEY); } catch (e) {}
+    mark(T.DEFAULT); say("Reset to the default theme");
+  });
+})();
+</script>
 <footer class="site-footer">
   <div class="wrap footer-grid">
     <div class="footer-brand">
