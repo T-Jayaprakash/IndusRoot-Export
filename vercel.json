@@ -1,6 +1,138 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/quote",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/quote.html",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/product-details",
+      "destination": "/products",
+      "permanent": true
+    },
+    {
+      "source": "/product-details.html",
+      "destination": "/products",
+      "permanent": true
+    },
+    {
+      "source": "/blog",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/blog.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/blog-single",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/blog-single.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/services",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/services.html",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/global-presence",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/global-presence.html",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/industries",
+      "destination": "/products",
+      "permanent": true
+    },
+    {
+      "source": "/industries.html",
+      "destination": "/products",
+      "permanent": true
+    },
+    {
+      "source": "/quality-compliance",
+      "destination": "/products#specifications",
+      "permanent": true
+    },
+    {
+      "source": "/quality-compliance.html",
+      "destination": "/products#specifications",
+      "permanent": true
+    },
+    {
+      "source": "/supply-chain",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/supply-chain.html",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/infrastructure",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/infrastructure.html",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/certifications",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/certifications.html",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/sustainability",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/sustainability.html",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/why-choose-us",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/why-choose-us.html",
+      "destination": "/about",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",
@@ -17,6 +149,23 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
         }
       ]
     }

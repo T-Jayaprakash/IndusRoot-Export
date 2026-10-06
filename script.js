@@ -1,551 +1,205 @@
-/**
- * INDUS ROOTS EXPORTS — Interactive Engine & Routing Logic
- * Handles dynamic product details, product-aware inquiries, WhatsApp generators,
- * search/filter systems, and responsive navigation.
- */
+/* Indus Roots Exports — site behaviour (no dependencies) */
+(function () {
+  "use strict";
 
-// Official Company Contact Information
-const COMPANY_CONFIG = {
-  name: "Indus Roots Exports",
-  whatsappNumber: "919629300614", // Primary business WhatsApp (Tamil Nadu, India)
-  email: "exports@indusroots.com",
-  phone: "+91 96293 00614",
-  phone2: "+91 88701 00614",
-  address: "No. 183/1C33, Vadugapatti, Sri Sai Ram Nagar, Devali Road, Kumaramangalam, Kulathur Taluk, Pudukkottai - 622515, Tamil Nadu, India",
-  ports: "Tuticorin (V.O. Chidambaranar) & Chennai Ports"
-};
+  var WHATSAPP_NUMBER = "918870100614";
+  var EMAIL = "exports@indusroots.com";
 
-document.addEventListener('DOMContentLoaded', () => {
-  initNavigation();
-  initDynamicProductDetails();
-  initProductCatalog();
-  initQuoteAndInquiryForms();
-  initAccordions();
-  initFloatingWhatsApp();
-  highlightActiveNav();
-  initBottomTicker();
-});
+  document.documentElement.classList.add("js");
 
-/**
- * 1. Navigation & Mobile Drawer
- */
-function initNavigation() {
-  const toggleBtn = document.querySelector('.mobile-toggle');
-  const drawer = document.querySelector('.mobile-drawer');
-  const closeBtn = document.querySelector('.mobile-drawer-close');
-
-  if (toggleBtn && drawer) {
-    toggleBtn.addEventListener('click', () => {
-      drawer.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
+  /* ---------- Header state ---------- */
+  var header = document.querySelector(".site-header");
+  var toTop = document.querySelector(".to-top");
+  function onScroll() {
+    var y = window.scrollY || window.pageYOffset;
+    if (header) header.classList.toggle("is-scrolled", y > 40);
+    if (toTop) toTop.classList.toggle("is-visible", y > 700);
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+  if (toTop) {
+    toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
   }
 
-  if (closeBtn && drawer) {
-    closeBtn.addEventListener('click', () => {
-      drawer.classList.remove('active');
-      document.body.style.overflow = '';
-    });
-  }
-
-  if (drawer) {
-    drawer.addEventListener('click', (e) => {
-      if (e.target === drawer) {
-        drawer.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-    });
-  }
-}
-
-/**
- * Highlights current active link in header & mobile nav
- */
-function highlightActiveNav() {
-  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
-    const href = link.getAttribute('href');
-    if (href && (href === currentPath || (currentPath === '' && href === 'index.html'))) {
-      link.classList.add('active');
+  /* ---------- Mobile drawer ---------- */
+  var drawer = document.getElementById("drawer");
+  var openBtn = document.querySelector(".menu-toggle");
+  function setDrawer(open) {
+    if (!drawer) return;
+    drawer.classList.toggle("is-open", open);
+    drawer.setAttribute("aria-hidden", String(!open));
+    if (openBtn) openBtn.setAttribute("aria-expanded", String(open));
+    document.body.style.overflow = open ? "hidden" : "";
+    if (open) {
+      var first = drawer.querySelector(".drawer__close");
+      if (first) first.focus();
+    } else if (openBtn) {
+      openBtn.focus();
     }
-  });
-}
-
-/**
- * 2. Dynamic Product Catalog (products.html)
- */
-function initProductCatalog() {
-  const catalogGrid = document.getElementById('catalogGrid');
-  if (!catalogGrid || typeof PRODUCTS_DATA === 'undefined') return;
-
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const searchInput = document.getElementById('productSearchInput');
-  const resultCount = document.getElementById('resultCount');
-
-  let currentCategory = 'all';
-  let searchQuery = '';
-
-  function renderProducts() {
-    const filtered = PRODUCTS_DATA.filter(p => {
-      const matchCat = currentCategory === 'all' || p.category === currentCategory;
-      const matchQuery = !searchQuery || 
-        p.name.toLowerCase().includes(searchQuery) ||
-        p.shortDesc.toLowerCase().includes(searchQuery) ||
-        p.categoryLabel.toLowerCase().includes(searchQuery);
-      return matchCat && matchQuery;
-    });
-
-    if (resultCount) {
-      resultCount.textContent = `Showing ${filtered.length} of ${PRODUCTS_DATA.length} products`;
-    }
-
-    if (filtered.length === 0) {
-      catalogGrid.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-md);">
-          <h3 style="margin-bottom: 8px;">No matching products found</h3>
-          <p style="color: var(--muted); margin-bottom: 20px;">Try adjusting your keyword or browse by category.</p>
-          <button class="btn btn-outline btn-sm" onclick="resetProductFilters()">Reset Filters</button>
-        </div>
-      `;
-      return;
-    }
-
-    catalogGrid.innerHTML = filtered.map(p => `
-      <article class="product-card" data-category="${p.category}">
-        <div class="product-card-img">
-          <img src="${p.image}" alt="${p.name}" loading="lazy">
-          <span class="product-badge">${p.badge}</span>
-        </div>
-        <div class="product-card-body">
-          <div class="product-category">${p.categoryLabel}</div>
-          <h3 class="product-title">${p.name}</h3>
-          <p class="product-desc">${p.shortDesc}</p>
-          <div class="product-card-footer">
-            <a href="product-details.html?product=${p.id}" class="btn btn-outline btn-sm">
-              View Product Details →
-            </a>
-            <a href="quote.html?product=${encodeURIComponent(p.name)}" class="btn btn-primary btn-sm">
-              Send Inquiry
-            </a>
-          </div>
-        </div>
-      </article>
-    `).join('');
   }
-
-  window.resetProductFilters = function() {
-    currentCategory = 'all';
-    searchQuery = '';
-    if (searchInput) searchInput.value = '';
-    filterBtns.forEach(b => b.classList.toggle('active', b.dataset.category === 'all'));
-    renderProducts();
-  };
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentCategory = btn.dataset.category;
-      renderProducts();
+  if (drawer && openBtn) {
+    openBtn.addEventListener("click", function () { setDrawer(true); });
+    drawer.querySelectorAll("[data-close]").forEach(function (el) {
+      el.addEventListener("click", function () { setDrawer(false); });
     });
-  });
-
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      searchQuery = e.target.value.trim().toLowerCase();
-      renderProducts();
+    drawer.querySelectorAll("nav a").forEach(function (a) {
+      a.addEventListener("click", function () { setDrawer(false); });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && drawer.classList.contains("is-open")) setDrawer(false);
     });
   }
 
-  // Initial render
-  renderProducts();
-}
-
-/**
- * 3. Dynamic Product Details Page (product-details.html)
- */
-function initDynamicProductDetails() {
-  const detailContainer = document.getElementById('productDetailContainer');
-  if (!detailContainer || typeof PRODUCTS_DATA === 'undefined') return;
-
-  // Retrieve query param: ?product=... or ?id=...
-  const urlParams = new URLSearchParams(window.location.search);
-  const requestedId = urlParams.get('product') || urlParams.get('id') || 'cocopeat-5kg-blocks';
-
-  // Find product by id or fuzzy name
-  let product = PRODUCTS_DATA.find(p => p.id === requestedId || p.name.toLowerCase() === requestedId.toLowerCase());
-  if (!product) {
-    // Fallback to first product
-    product = PRODUCTS_DATA[0];
-  }
-
-  // Update Page Title
-  document.title = `${product.name} Specifications | Indus Roots Exports`;
-
-  // Breadcrumb
-  const breadcrumbEl = document.getElementById('productBreadcrumb');
-  if (breadcrumbEl) {
-    breadcrumbEl.innerHTML = `
-      <a href="index.html">Home</a>
-      <span class="breadcrumb-sep">/</span>
-      <a href="products.html">Products</a>
-      <span class="breadcrumb-sep">/</span>
-      <span class="active">${product.name}</span>
-    `;
-  }
-
-  // Fill in Gallery
-  const mainImg = document.getElementById('productMainImage');
-  const thumbsContainer = document.getElementById('productThumbnails');
-  if (mainImg) {
-    mainImg.src = product.image;
-    mainImg.alt = product.name;
-  }
-  if (thumbsContainer && product.gallery) {
-    thumbsContainer.innerHTML = product.gallery.map((imgSrc, idx) => `
-      <button class="thumb-btn ${idx === 0 ? 'active' : ''}" onclick="switchProductImage('${imgSrc}', this)" aria-label="View gallery photo ${idx + 1}">
-        <img src="${imgSrc}" alt="${product.name} view ${idx + 1}">
-      </button>
-    `).join('');
-  }
-
-  window.switchProductImage = function(src, btn) {
-    if (mainImg) mainImg.src = src;
-    document.querySelectorAll('.thumb-btn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-  };
-
-  // Fill Meta Tags
-  const metaContainer = document.getElementById('productMetaTags');
-  if (metaContainer) {
-    metaContainer.innerHTML = `
-      <span class="meta-tag gold">${product.categoryLabel}</span>
-      <span class="meta-tag green">${product.badge}</span>
-      <span class="meta-tag">Origin: Tamil Nadu, India</span>
-    `;
-  }
-
-  // Title & Descriptions
-  const titleEl = document.getElementById('productTitle');
-  if (titleEl) titleEl.textContent = product.name;
-
-  const descEl = document.getElementById('productDescription');
-  if (descEl) descEl.textContent = product.fullDesc;
-
-  // Specifications Table
-  const specTbody = document.getElementById('specTableBody');
-  if (specTbody && product.specs) {
-    specTbody.innerHTML = Object.entries(product.specs).map(([key, val]) => `
-      <tr>
-        <th>${key}</th>
-        <td>${val}</td>
-      </tr>
-    `).join('');
-  }
-
-  // Applications List
-  const appsList = document.getElementById('productApplications');
-  if (appsList && product.applications) {
-    appsList.innerHTML = product.applications.map(app => `
-      <li style="margin-bottom: 8px; display: flex; align-items: baseline; gap: 8px;">
-        <span style="color: var(--green); font-weight: 800;">✓</span>
-        <span>${app}</span>
-      </li>
-    `).join('');
-  }
-
-  // Inquiry CTA Links
-  const quoteCta = document.getElementById('productQuoteCta');
-  if (quoteCta) {
-    quoteCta.href = `quote.html?product=${encodeURIComponent(product.name)}`;
-  }
-
-  const whatsappCta = document.getElementById('productWhatsAppCta');
-  if (whatsappCta) {
-    const waText = encodeURIComponent(
-      `Hello Indus Roots Exports,\n\nI am interested in importing *${product.name}* from India.\n\nPlease share current pricing, technical specifications, and shipping schedules to my destination.\n\nThank you!`
-    );
-    whatsappCta.href = `https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${waText}`;
-  }
-}
-
-/**
- * 4. Request a Quote & Inquiry Forms (quote.html, modal inquiry, contact form)
- */
-function initQuoteAndInquiryForms() {
-  // Check if we are on quote.html and pre-fill the product field if specified in URL
-  const productSelect = document.querySelector('select[name="product"], input[name="product"]');
-  if (productSelect) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const paramProduct = urlParams.get('product');
-    if (paramProduct) {
-      if (productSelect.tagName === 'SELECT') {
-        let matched = false;
-        const cleanParam = paramProduct.trim().toLowerCase();
-        Array.from(productSelect.options).forEach(opt => {
-          if (!opt.value) return;
-          const optVal = opt.value.toLowerCase();
-          const optText = opt.text.toLowerCase();
-          if (optVal.includes(cleanParam) || cleanParam.includes(optVal) ||
-              optText.includes(cleanParam) || cleanParam.includes(optText)) {
-            opt.selected = true;
-            productSelect.value = opt.value;
-            matched = true;
-          }
-        });
-        if (!matched && cleanParam) {
-          const newOpt = new Option(paramProduct, paramProduct, true, true);
-          productSelect.add(newOpt);
-          productSelect.value = paramProduct;
+  /* ---------- Reveal on scroll ---------- */
+  var reveals = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-in");
+          io.unobserve(entry.target);
         }
-      } else {
-        productSelect.value = paramProduct;
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add("is-in"); });
+  }
+
+  /* ---------- Products page: active brand tab ---------- */
+  var tabs = document.querySelectorAll(".brand-switch a");
+  if (tabs.length && "IntersectionObserver" in window) {
+    var sections = [];
+    tabs.forEach(function (t) {
+      var s = document.querySelector(t.getAttribute("href"));
+      if (s) sections.push({ tab: t, el: s });
+    });
+    var tabIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        tabs.forEach(function (t) { t.classList.remove("is-active"); });
+        sections.forEach(function (s) { if (s.el === entry.target) s.tab.classList.add("is-active"); });
+      });
+    }, { rootMargin: "-40% 0px -55% 0px" });
+    sections.forEach(function (s) { tabIo.observe(s.el); });
+  }
+
+  /* ---------- Enquiry form ---------- */
+  var form = document.getElementById("enquiry-form");
+  if (form) {
+    var status = form.querySelector(".form__status");
+    var productSelect = form.querySelector("#f-product");
+
+    // Pre-select a product from ?product=… or from "Enquire" buttons on the same page
+    function selectProduct(name) {
+      if (!productSelect || !name) return;
+      for (var i = 0; i < productSelect.options.length; i++) {
+        if (productSelect.options[i].value.toLowerCase() === name.toLowerCase()) {
+          productSelect.selectedIndex = i;
+          return;
+        }
       }
     }
-  }
+    try {
+      var q = new URLSearchParams(window.location.search).get("product");
+      if (q) selectProduct(q);
+    } catch (e) { /* old browser: ignore */ }
+    document.querySelectorAll("[data-enquire]").forEach(function (btn) {
+      btn.addEventListener("click", function () { selectProduct(btn.getAttribute("data-enquire")); });
+    });
 
-  // Handle RFQ Form Submission
-  const rfqForm = document.getElementById('rfqForm');
-  if (rfqForm) {
-    rfqForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (!rfqForm.checkValidity()) {
-        rfqForm.reportValidity();
-        return;
-      }
-
-      const formData = new FormData(rfqForm);
-      const name = formData.get('name') || '';
-      const company = formData.get('company') || '';
-      const email = formData.get('email') || '';
-      const phone = formData.get('phone') || '';
-      const country = formData.get('country') || '';
-      const product = formData.get('product') || 'Export Products';
-      const quantity = formData.get('quantity') || 'Unspecified';
-      const targetPrice = formData.get('target_price') || 'Market Rate';
-      const deliveryPort = formData.get('delivery_port') || 'To be discussed';
-      const incoterm = formData.get('incoterm') || 'CIF';
-      const message = formData.get('message') || '';
-
-      // Prepare Structured WhatsApp text
-      const waMessage = 
-`*New Import Inquiry — Indus Roots Exports*
-----------------------------------------
-*Product:* ${product}
-*Quantity Required:* ${quantity}
-*Target Price / Terms:* ${targetPrice} (${incoterm})
-*Destination Port:* ${deliveryPort}
-
-*Buyer Details:*
-• *Name:* ${name}
-• *Company:* ${company}
-• *Country:* ${country}
-• *Email:* ${email}
-• *Phone / WhatsApp:* ${phone}
-
-*Additional Notes:*
-${message || 'Please provide quotation, COA and earliest shipping schedule.'}`;
-
-      const waUrl = `https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent(waMessage)}`;
-
-      // Prepare mailto fallback
-      const mailSubject = encodeURIComponent(`Import Quotation Request: ${product} - ${company || name}`);
-      const mailBody = encodeURIComponent(
-`Dear Indus Roots Exports Team,
-
-I would like to request an official quotation for the following requirement:
-
-Product: ${product}
-Quantity Required: ${quantity}
-Destination Port / Incoterms: ${deliveryPort} (${incoterm})
-Target Price: ${targetPrice}
-
-Buyer Information:
-Name: ${name}
-Company: ${company}
-Country: ${country}
-Email: ${email}
-Phone / WhatsApp: ${phone}
-
-Additional Requirements:
-${message}
-
-Please share commercial invoice / quotation with delivery schedules at your earliest convenience.
-
-Best regards,
-${name}`
-      );
-      const mailtoUrl = `mailto:${COMPANY_CONFIG.email}?subject=${mailSubject}&body=${mailBody}`;
-
-      // Open Confirmation Modal with both WhatsApp and Email options!
-      showInquirySuccessModal({
-        product,
-        quantity,
-        country,
-        waUrl,
-        mailtoUrl
+    function value(id) {
+      var el = form.querySelector("#" + id);
+      return el ? el.value.trim() : "";
+    }
+    function validate() {
+      var ok = true;
+      form.querySelectorAll("[required]").forEach(function (el) {
+        var valid = el.value.trim() !== "" && (el.type !== "email" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()));
+        el.closest(".field").classList.toggle("is-invalid", !valid);
+        if (!valid && ok) { el.focus(); ok = false; }
       });
+      return ok;
+    }
+    function buildMessage() {
+      var lines = [
+        "New enquiry — Indus Roots Exports website",
+        "",
+        "Name: " + value("f-name"),
+        "Company: " + (value("f-company") || "-"),
+        "Country: " + value("f-country"),
+        "Phone / WhatsApp: " + value("f-phone"),
+        "Email: " + value("f-email"),
+        "Product: " + (value("f-product") || "-"),
+        "Quantity: " + (value("f-qty") || "-"),
+        "",
+        "Message:",
+        value("f-message") || "-"
+      ];
+      return lines.join("\n");
+    }
+    function say(msg, isError) {
+      if (!status) return;
+      status.textContent = msg;
+      status.classList.toggle("is-error", !!isError);
+    }
+
+    form.addEventListener("input", function (e) {
+      var f = e.target.closest(".field");
+      if (f) f.classList.remove("is-invalid");
+    });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var via = (e.submitter && e.submitter.value) || "whatsapp";
+      if (!validate()) { say("Please fill in the highlighted fields.", true); return; }
+      var text = buildMessage();
+      if (via === "email") {
+        var subject = "Enquiry: " + (value("f-product") || "Products") + " — " + value("f-company") + " (" + value("f-country") + ")";
+        window.location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(text);
+        say("Your email app has opened with the enquiry. Just press send.");
+      } else {
+        window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text), "_blank", "noopener");
+        say("WhatsApp has opened with your enquiry. Just press send.");
+      }
     });
   }
 
-  // Handle Contact Us Form
-  const contactForm = document.getElementById('contactForm');
-  if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (!contactForm.checkValidity()) {
-        contactForm.reportValidity();
-        return;
-      }
-      const formData = new FormData(contactForm);
-      const name = formData.get('name');
-      const company = formData.get('company') || '';
-      const email = formData.get('email');
-      const phone = formData.get('phone') || '';
-      const subject = formData.get('subject') || 'General Trade Inquiry';
-      const message = formData.get('message');
-
-      const waText = encodeURIComponent(
-`*Contact Message — Indus Roots Exports*
-From: ${name} (${company || 'Individual'})
-Email: ${email}
-Phone: ${phone}
-Subject: ${subject}
-
-Message:
-${message}`
-      );
-      const waUrl = `https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${waText}`;
-      
-      showInquirySuccessModal({
-        product: subject,
-        quantity: "Contact Message",
-        country: "General Inquiry",
-        waUrl,
-        mailtoUrl: `mailto:${COMPANY_CONFIG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`
-      });
-    });
+  /* ---------- Language (Google Translate) ---------- */
+  var langSelects = document.querySelectorAll(".lang select");
+  function getLang() {
+    var m = document.cookie.match(/(?:^|;\s*)googtrans=\/[^/]*\/([^;]+)/);
+    return m ? decodeURIComponent(m[1]) : "en";
   }
-}
-
-/**
- * Shows interactive confirmation modal with instant WhatsApp jump
- */
-function showInquirySuccessModal(data) {
-  let modalOverlay = document.getElementById('inquirySuccessModal');
-  if (!modalOverlay) {
-    modalOverlay = document.createElement('div');
-    modalOverlay.id = 'inquirySuccessModal';
-    modalOverlay.className = 'modal-overlay';
-    document.body.appendChild(modalOverlay);
+  function setCookie(val) {
+    var host = window.location.hostname;
+    var expiry = val ? "" : "; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    var c = "googtrans=" + (val || "") + "; path=/" + expiry;
+    document.cookie = c;
+    if (host.indexOf(".") > -1 && !/^\d+\.\d+\.\d+\.\d+$/.test(host)) {
+      document.cookie = c + "; domain=." + host.replace(/^www\./, "");
+    }
   }
-
-  modalOverlay.innerHTML = `
-    <div class="modal-dialog">
-      <div class="modal-head">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="display: inline-flex; width: 28px; height: 28px; border-radius: 50%; background: var(--green-soft); color: var(--green); align-items: center; justify-content: center; font-weight: 800;">✓</span>
-          <h3>Inquiry Ready</h3>
-        </div>
-        <button class="modal-close-btn" onclick="closeInquiryModal()" aria-label="Close dialog">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p style="font-size: 15px; margin-bottom: 16px;">
-          Your inquiry for <strong>${data.product}</strong> has been structured and recorded. 
-        </p>
-        <div style="background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 20px; font-size: 13.5px;">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-            <span style="color: var(--muted);">Product:</span>
-            <strong>${data.product}</strong>
-          </div>
-          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-            <span style="color: var(--muted);">Quantity:</span>
-            <span>${data.quantity}</span>
-          </div>
-          <div style="display: flex; justify-content: space-between;">
-            <span style="color: var(--muted);">Destination:</span>
-            <span>${data.country}</span>
-          </div>
-        </div>
-        <p style="font-size: 14px; color: var(--muted); margin-bottom: 24px;">
-          For fastest response and real-time shipment updates, continue directly on WhatsApp or open your email client:
-        </p>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <a href="${data.waUrl}" target="_blank" class="btn btn-whatsapp btn-lg" style="width: 100%;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.697c.96.523 1.83.801 2.809.801 3.18 0 5.767-2.587 5.767-5.766.001-3.182-2.585-5.783-5.77-5.783zm9.969 5.766c0 5.514-4.486 10-10 10-1.823 0-3.528-.49-4.996-1.341l-5.004 1.314 1.336-4.882c-.938-1.507-1.472-3.28-1.472-5.091 0-5.514 4.486-10 10-10s10 4.486 10 10z"/></svg>
-            Continue on WhatsApp (Direct Trade Desk) →
-          </a>
-          <a href="${data.mailtoUrl}" class="btn btn-outline" style="width: 100%;">
-            Send via Default Email Application ✉
-          </a>
-        </div>
-      </div>
-      <div class="modal-foot">
-        <button class="btn btn-sm btn-outline" onclick="closeInquiryModal()">Close</button>
-      </div>
-    </div>
-  `;
-
-  modalOverlay.classList.add('active');
-  document.body.style.overflow = 'hidden';
-
-  window.closeInquiryModal = function() {
-    modalOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-  };
-}
-
-/**
- * 5. Accordion (FAQ toggles)
- */
-function initAccordions() {
-  document.querySelectorAll('.accordion-header').forEach(header => {
-    header.addEventListener('click', () => {
-      const item = header.parentElement;
-      const wasActive = item.classList.contains('active');
-      
-      // Close peers in same accordion
-      const parent = item.parentElement;
-      if (parent) {
-        parent.querySelectorAll('.accordion-item').forEach(sibling => {
-          sibling.classList.remove('active');
-        });
-      }
-      
-      if (!wasActive) {
-        item.classList.add('active');
-      }
+  var current = getLang();
+  langSelects.forEach(function (sel) {
+    sel.value = current;
+    if (sel.value !== current) sel.value = "en";
+    sel.addEventListener("change", function () {
+      setCookie(sel.value === "en" ? "" : "/en/" + sel.value);
+      window.location.reload();
     });
   });
-}
-
-/**
- * 6. Global Floating WhatsApp Button
- */
-function initFloatingWhatsApp() {
-  // If button already exists in HTML, attach default event or fallback
-  const floatBtn = document.querySelector('.floating-whatsapp');
-  if (floatBtn && !floatBtn.getAttribute('href')) {
-    const defaultText = encodeURIComponent("Hello Indus Roots Exports, I would like to inquire about your export products and sourcing capabilities from India.");
-    floatBtn.setAttribute('href', `https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${defaultText}`);
-    floatBtn.setAttribute('target', '_blank');
+  if (current !== "en") {
+    document.documentElement.setAttribute("lang", current);
+    window.googleTranslateElementInit = function () {
+      /* global google */
+      new google.translate.TranslateElement({ pageLanguage: "en", autoDisplay: false }, "google_translate_element");
+    };
+    var gt = document.createElement("script");
+    gt.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+    gt.async = true;
+    document.body.appendChild(gt);
   }
-}
 
-/**
- * 7. Running Continuous Bottom Ticker
- */
-function initBottomTicker() {
-  const ticker = document.querySelector('.bottom-ticker');
-  if (!ticker) return;
-
-  const track = ticker.querySelector('.ticker-track');
-  if (!track) return;
-
-  const contents = track.querySelectorAll('.ticker-content');
-  if (contents.length === 1) {
-    const clone = contents[0].cloneNode(true);
-    clone.setAttribute('aria-hidden', 'true');
-    track.appendChild(clone);
-  }
-}
+  /* ---------- Footer year ---------- */
+  document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
+})();
