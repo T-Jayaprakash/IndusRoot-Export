@@ -84,29 +84,21 @@
     sections.forEach(function (s) { tabIo.observe(s.el); });
   }
 
-  /* ---------- Enquiry form ---------- */
-  var form = document.getElementById("enquiry-form");
+  /* ---------- Quote form (quote.html) ---------- */
+  var form = document.getElementById("quote-form");
   if (form) {
     var status = form.querySelector(".form__status");
-    var productSelect = form.querySelector("#f-product");
+    var productSelect = form.querySelector("#q-product");
 
-    // Pre-select a product from ?product=… or from "Enquire" buttons on the same page
-    function selectProduct(name) {
-      if (!productSelect || !name) return;
-      for (var i = 0; i < productSelect.options.length; i++) {
-        if (productSelect.options[i].value.toLowerCase() === name.toLowerCase()) {
-          productSelect.selectedIndex = i;
-          return;
-        }
-      }
-    }
+    // Pre-select a product from ?product=… (used by the "Enquire" buttons on the products page)
     try {
       var q = new URLSearchParams(window.location.search).get("product");
-      if (q) selectProduct(q);
+      if (q && productSelect) {
+        for (var i = 0; i < productSelect.options.length; i++) {
+          if (productSelect.options[i].value.toLowerCase() === q.toLowerCase()) { productSelect.selectedIndex = i; break; }
+        }
+      }
     } catch (e) { /* old browser: ignore */ }
-    document.querySelectorAll("[data-enquire]").forEach(function (btn) {
-      btn.addEventListener("click", function () { selectProduct(btn.getAttribute("data-enquire")); });
-    });
 
     function value(id) {
       var el = form.querySelector("#" + id);
@@ -116,26 +108,16 @@
       var ok = true;
       form.querySelectorAll("[required]").forEach(function (el) {
         var valid = el.value.trim() !== "" && (el.type !== "email" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()));
-        el.closest(".field").classList.toggle("is-invalid", !valid);
+        el.closest(".qf").classList.toggle("is-invalid", !valid);
         if (!valid && ok) { el.focus(); ok = false; }
       });
       return ok;
     }
     function buildMessage() {
-      var lines = [
-        "New enquiry — Indus Roots Exports website",
-        "",
-        "Name: " + value("f-name"),
-        "Company: " + (value("f-company") || "-"),
-        "Country: " + value("f-country"),
-        "Phone / WhatsApp: " + value("f-phone"),
-        "Email: " + value("f-email"),
-        "Product: " + (value("f-product") || "-"),
-        "Quantity: " + (value("f-qty") || "-"),
-        "",
-        "Message:",
-        value("f-message") || "-"
-      ];
+      var lines = ["New quote request — Indus Roots Exports website", ""];
+      form.querySelectorAll("[data-label]").forEach(function (el) {
+        lines.push(el.getAttribute("data-label") + ": " + (el.value.trim() || "-"));
+      });
       return lines.join("\n");
     }
     function say(msg, isError) {
@@ -145,7 +127,11 @@
     }
 
     form.addEventListener("input", function (e) {
-      var f = e.target.closest(".field");
+      var f = e.target.closest(".qf");
+      if (f) f.classList.remove("is-invalid");
+    });
+    form.addEventListener("change", function (e) {
+      var f = e.target.closest(".qf");
       if (f) f.classList.remove("is-invalid");
     });
     form.addEventListener("submit", function (e) {
@@ -154,7 +140,7 @@
       if (!validate()) { say("Please fill in the highlighted fields.", true); return; }
       var text = buildMessage();
       if (via === "email") {
-        var subject = "Enquiry: " + (value("f-product") || "Products") + " — " + value("f-company") + " (" + value("f-country") + ")";
+        var subject = "Quote request: " + value("q-product") + " — " + value("q-company") + " (" + value("q-port") + ")";
         window.location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(text);
         say("Your email app has opened with the enquiry. Just press send.");
       } else {
