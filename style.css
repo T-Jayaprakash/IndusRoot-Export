@@ -768,3 +768,21 @@ font[style] { background: transparent !important; box-shadow: none !important; }
   .lang select { max-width: 40px; }
 }
 
+
+/* ---------- Mobile hero: photo background with navy overlay ---------- */
+@media (max-width: 900px) {
+  .hero { position: relative; min-height: 100svh; }
+  .hero__media { position: absolute; inset: 0; height: auto; min-height: 0; }
+  .hero__media::before { display: none; }
+  .hero__panel {
+    position: relative; z-index: 1; min-height: 100svh; justify-content: flex-end;
+    background: linear-gradient(180deg, rgba(10, 26, 63, .55) 0%, rgba(10, 26, 63, .7) 45%, rgba(10, 26, 63, .96) 100%);
+    padding: calc(var(--header-h) + 32px) 20px 64px;
+  }
+  .hero__panel::before { display: none; }
+  .hero h1 { font-size: clamp(2.3rem, 10vw, 3rem); margin-bottom: .3em; }
+  .hero__lead { margin-bottom: 1.1em; }
+  .hero__eyebrow { margin-bottom: 14px; }
+  .hero__brands { margin-top: 22px; }
+  .hero__brands > span { background: rgba(255, 255, 255, .08); }
+}
