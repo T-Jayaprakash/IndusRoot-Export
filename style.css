@@ -823,3 +823,16 @@ body { padding-bottom: 40px; }
 .card h4 { font-size: clamp(1.1rem, 1.6vw, 1.35rem); font-weight: 800; color: var(--heading); margin-top: 16px; }
 .card span { font-size: .95rem; }
 @media (max-width: 640px) { .cards { gap: 16px; } .card { flex-basis: calc((100% - 16px) / 2); } .card h4 { font-size: 1rem; } }
+
+/* ---------- Overview (who we are) ---------- */
+.overview__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 980px; margin: 0 auto; }
+.ovcard { display: block; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 30px 30px 26px; color: var(--text); transition: box-shadow .25s, transform .25s var(--ease), border-color .25s; }
+.ovcard:hover { box-shadow: var(--shadow); transform: translateY(-3px); border-color: var(--brand-text); color: var(--text); }
+.ovcard h3 { font-size: 1.5rem; font-weight: 800; color: var(--heading); margin-bottom: 14px; }
+.ovcard ul { display: grid; gap: 8px; margin-bottom: 18px; }
+.ovcard li { position: relative; padding-left: 22px; }
+.ovcard li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 8px; border-radius: 2px; background: var(--kicker); }
+.ovcard b { color: var(--brand-text); display: inline-flex; align-items: center; gap: 6px; }
+.terms { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 30px; }
+.terms li { border: 1px solid var(--line); background: var(--primary-50); color: var(--heading); font-weight: 600; font-size: .92rem; padding: 8px 16px; border-radius: 999px; }
+@media (max-width: 720px) { .overview__grid { grid-template-columns: 1fr; } .ovcard { padding: 24px 22px; } }
