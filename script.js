@@ -199,6 +199,28 @@
     }, 4000);
   });
 
+
+  /* ---------- Count-up stats ---------- */
+  var counters = document.querySelectorAll("[data-count]");
+  function runCount(el) {
+    var target = +el.getAttribute("data-count"), suffix = el.getAttribute("data-suffix") || "", start = null;
+    function step(t) {
+      if (!start) start = t;
+      var p = Math.min((t - start) / 1400, 1);
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  if ("IntersectionObserver" in window) {
+    var cio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { runCount(e.target); cio.unobserve(e.target); } });
+    }, { threshold: 0.5 });
+    counters.forEach(function (c) { cio.observe(c); });
+  } else {
+    counters.forEach(function (c) { c.textContent = c.getAttribute("data-count") + (c.getAttribute("data-suffix") || ""); });
+  }
+
   /* ---------- Footer year ---------- */
   document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();
