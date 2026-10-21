@@ -769,24 +769,24 @@ font[style] { background: transparent !important; box-shadow: none !important; }
 }
 
 
-/* ---------- Mobile hero: photo background with navy overlay ---------- */
-@media (max-width: 900px) {
-  .hero { position: relative; min-height: 100svh; }
-  .hero__media { position: absolute; inset: 0; height: auto; min-height: 0; }
-  .hero__media::before { display: none; }
-  .hero__panel {
-    position: relative; z-index: 1; min-height: 100svh; justify-content: flex-end;
-    background: linear-gradient(180deg, rgba(10, 26, 63, .55) 0%, rgba(10, 26, 63, .7) 45%, rgba(10, 26, 63, .96) 100%);
-    padding: calc(var(--header-h) + 32px) 20px 64px;
-  }
-  .hero__panel::before { display: none; }
-  .hero h1 { font-size: clamp(2.3rem, 10vw, 3rem); margin-bottom: .3em; }
-  .hero__lead { margin-bottom: 1.1em; }
-  .hero__eyebrow { margin-bottom: 14px; }
-  .hero__brands { margin-top: 22px; }
-  .hero__brands > span { background: rgba(255, 255, 255, .08); }
+/* ---------- Hero: full-screen photo slideshow with text overlay ---------- */
+.hero { position: relative; display: block; min-height: 100svh; }
+.hero__media { position: absolute; inset: 0; height: auto; min-height: 0; }
+.hero__media::before { display: none; }
+.hero__panel {
+  position: relative; z-index: 1; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; text-align: left;
+  background: linear-gradient(90deg, rgba(10, 26, 63, .88) 0%, rgba(10, 26, 63, .6) 55%, rgba(10, 26, 63, .25) 100%);
+  padding: calc(var(--header-h) + 40px) max(20px, calc((100vw - 1200px) / 2)) 80px;
 }
-
+.hero__panel::before { display: none; }
+.hero__inner { max-width: 680px; }
+.hero h1 { font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.1; margin-bottom: .4em; }
+.hero__lead { font-size: clamp(1.05rem, 1.6vw, 1.3rem); font-weight: 400; line-height: 1.6; margin-bottom: 1.6em; max-width: 600px; }
+.hero__ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+@media (max-width: 900px) {
+  .hero__panel { justify-content: flex-end; padding-bottom: 72px; background: linear-gradient(180deg, rgba(10, 26, 63, .45) 0%, rgba(10, 26, 63, .7) 45%, rgba(10, 26, 63, .95) 100%); }
+  .hero__ctas .btn { flex: 1 1 auto; }
+}
 
 /* ---------- Flash-sale ticker ---------- */
 body { padding-bottom: 40px; }
