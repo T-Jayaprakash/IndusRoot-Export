@@ -786,3 +786,40 @@ font[style] { background: transparent !important; box-shadow: none !important; }
   .hero__brands { margin-top: 22px; }
   .hero__brands > span { background: rgba(255, 255, 255, .08); }
 }
+
+
+/* ---------- Flash-sale ticker ---------- */
+body { padding-bottom: 40px; }
+.ticker { position: fixed; left: 0; right: 0; bottom: 0; z-index: 95; height: 40px; overflow: hidden; background: var(--accent); color: var(--on-accent); display: flex; align-items: center; font-weight: 700; font-size: .92rem; }
+.ticker:hover { color: var(--on-accent); }
+.ticker__track { display: flex; width: max-content; animation: ticker 40s linear infinite; }
+.ticker:hover .ticker__track { animation-play-state: paused; }
+.ticker__group { display: flex; align-items: center; white-space: nowrap; }
+.ticker__tag { background: var(--primary-800); color: #fff; padding: 4px 12px; border-radius: 4px; text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; margin: 0 18px 0 24px; }
+.ticker__tag::before { content: "\26A1  "; }
+.ticker__item { padding: 0 16px; position: relative; }
+.ticker__item + .ticker__item::before { content: "\2022"; position: absolute; left: -3px; opacity: .6; }
+.ticker__cta { padding: 0 24px 0 16px; text-decoration: underline; }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.float-wa { bottom: 56px; }
+.to-top { bottom: 124px; }
+@media (prefers-reduced-motion: reduce) { .ticker__track { animation-duration: 120s; } }
+
+/* ---------- Hero slideshow ---------- */
+.hero__media .hero__slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease; animation: none; }
+.hero__media .hero__slide.is-active { opacity: 1; }
+
+/* ---------- Stats band ---------- */
+.stats { background: var(--primary-800); color: #fff; padding: clamp(36px, 5vw, 56px) 0; }
+.stats__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; }
+.stat strong { display: block; font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 800; color: var(--gold-soft); line-height: 1.1; }
+.stat span { display: block; margin-top: 6px; font-size: .95rem; letter-spacing: .08em; text-transform: uppercase; color: rgba(255, 255, 255, .85); }
+@media (max-width: 640px) { .stats__grid { grid-template-columns: 1fr 1fr; gap: 26px 12px; } }
+
+/* ---------- Bigger product cards with bold names ---------- */
+.cards { gap: 26px; }
+.card { flex-basis: calc((100% - 52px) / 3); }
+.card__img { aspect-ratio: 4 / 3; border-radius: 14px; }
+.card h4 { font-size: clamp(1.1rem, 1.6vw, 1.35rem); font-weight: 800; color: var(--heading); margin-top: 16px; }
+.card span { font-size: .95rem; }
+@media (max-width: 640px) { .cards { gap: 16px; } .card { flex-basis: calc((100% - 16px) / 2); } .card h4 { font-size: 1rem; } }

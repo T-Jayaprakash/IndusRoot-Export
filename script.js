@@ -186,6 +186,19 @@
     document.body.appendChild(gt);
   }
 
+
+  /* ---------- Hero slideshow ---------- */
+  document.querySelectorAll("[data-slideshow]").forEach(function (box) {
+    var slides = box.querySelectorAll(".hero__slide");
+    if (slides.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var i = 0;
+    setInterval(function () {
+      slides[i].classList.remove("is-active");
+      i = (i + 1) % slides.length;
+      slides[i].classList.add("is-active");
+    }, 4000);
+  });
+
   /* ---------- Footer year ---------- */
   document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();
