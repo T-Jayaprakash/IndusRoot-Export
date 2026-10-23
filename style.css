@@ -843,3 +843,13 @@ body { padding-bottom: 40px; }
 .ovcard:hover .ovcard__img img { transform: scale(1.05); }
 .ovcard h3, .ovcard ul, .ovcard b { margin-left: 30px; margin-right: 30px; }
 @media (max-width: 720px) { .ovcard { padding: 0 0 22px; } .ovcard h3, .ovcard ul, .ovcard b { margin-left: 22px; margin-right: 22px; } }
+
+/* ---------- Hero: big logo + name ---------- */
+.hero__panel { align-items: center; text-align: center; background: rgba(10, 26, 63, .72); }
+.hero__inner--brand { max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
+.hero__logo { width: clamp(120px, 18vw, 210px); height: auto; margin-bottom: 18px; filter: drop-shadow(0 6px 20px rgba(0,0,0,.35)); }
+.hero h1.hero__name { font-size: clamp(2.8rem, 8vw, 6rem); font-weight: 800; letter-spacing: .04em; text-transform: uppercase; line-height: 1; margin: 0 0 6px; }
+.hero__name small { display: block; font-size: .3em; letter-spacing: .6em; color: var(--gold-soft); font-weight: 600; margin-top: 14px; padding-left: .6em; }
+.hero__who { font-size: clamp(1.15rem, 2.2vw, 1.6rem); font-weight: 700; color: #fff; max-width: 680px; margin: 26px auto 30px; line-height: 1.4; }
+.hero__ctas { justify-content: center; }
+@media (max-width: 900px) { .hero__panel { justify-content: center; background: rgba(10, 26, 63, .75); } }
