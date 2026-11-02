@@ -864,3 +864,7 @@ body { padding-bottom: 40px; }
 .ticker__group { padding-left: 12px; }
 
 .hero__logo { width: clamp(80px, 9vw, 120px); margin-bottom: 12px; }
+
+.about-short { max-width: 780px; margin: 0 auto; text-align: center; }
+.about-short p { font-size: 1.15rem; color: var(--heading); margin-bottom: 1em; }
+.about-short .btn { margin-top: 10px; }
