@@ -862,3 +862,5 @@ body { padding-bottom: 40px; }
 .float-wa { bottom: 56px; }
 .to-top { bottom: 124px; }
 .ticker__group { padding-left: 12px; }
+
+.hero__logo { width: clamp(80px, 9vw, 120px); margin-bottom: 12px; }
