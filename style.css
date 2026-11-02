@@ -857,3 +857,8 @@ font[style] { background: transparent !important; box-shadow: none !important; }
 .hero__who { margin-bottom: 12px; }
 .hero__sub { color: rgba(255,255,255,.88); font-size: clamp(1rem, 1.6vw, 1.2rem); max-width: 680px; margin: 0 auto 30px; line-height: 1.6; }
 .terms { margin: 10px 0 30px; }
+
+body { padding-bottom: 40px; }
+.float-wa { bottom: 56px; }
+.to-top { bottom: 124px; }
+.ticker__group { padding-left: 12px; }
