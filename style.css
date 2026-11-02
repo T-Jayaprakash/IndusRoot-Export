@@ -789,7 +789,7 @@ font[style] { background: transparent !important; box-shadow: none !important; }
 }
 
 /* ---------- Flash-sale ticker ---------- */
-body { padding-bottom: 40px; }
+
 .ticker { position: fixed; left: 0; right: 0; bottom: 0; z-index: 95; height: 40px; overflow: hidden; background: var(--accent); color: var(--on-accent); display: flex; align-items: center; font-weight: 700; font-size: .92rem; }
 .ticker:hover { color: var(--on-accent); }
 .ticker__track { display: flex; width: max-content; animation: ticker 40s linear infinite; }
@@ -801,8 +801,8 @@ body { padding-bottom: 40px; }
 .ticker__item + .ticker__item::before { content: "\2022"; position: absolute; left: -3px; opacity: .6; }
 .ticker__cta { padding: 0 24px 0 16px; text-decoration: underline; }
 @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-.float-wa { bottom: 56px; }
-.to-top { bottom: 124px; }
+
+
 @media (prefers-reduced-motion: reduce) { .ticker__track { animation-duration: 120s; } }
 
 /* ---------- Hero slideshow ---------- */
@@ -853,3 +853,7 @@ body { padding-bottom: 40px; }
 .hero__who { font-size: clamp(1.15rem, 2.2vw, 1.6rem); font-weight: 700; color: #fff; max-width: 680px; margin: 26px auto 30px; line-height: 1.4; }
 .hero__ctas { justify-content: center; }
 @media (max-width: 900px) { .hero__panel { justify-content: center; background: rgba(10, 26, 63, .75); } }
+
+.hero__who { margin-bottom: 12px; }
+.hero__sub { color: rgba(255,255,255,.88); font-size: clamp(1rem, 1.6vw, 1.2rem); max-width: 680px; margin: 0 auto 30px; line-height: 1.6; }
+.terms { margin: 10px 0 30px; }
