@@ -187,18 +187,30 @@
   }
 
 
-  /* ---------- Hero slideshow ---------- */
+  /* ---------- Hero slideshow (loads each photo just before it is shown) ---------- */
   document.querySelectorAll("[data-slideshow]").forEach(function (box) {
     var slides = box.querySelectorAll(".hero__slide");
     if (slides.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    function prime(img) {
+      if (img && img.dataset.src) {
+        if (img.dataset.srcset) img.srcset = img.dataset.srcset;
+        img.src = img.dataset.src;
+        delete img.dataset.src; delete img.dataset.srcset;
+      }
+    }
     var i = 0;
-    setInterval(function () {
-      slides[i].classList.remove("is-active");
-      i = (i + 1) % slides.length;
-      slides[i].classList.add("is-active");
-    }, 4000);
+    window.addEventListener("load", function () {
+      prime(slides[1]);
+      setInterval(function () {
+        var next = (i + 1) % slides.length;
+        if (!slides[next].complete || slides[next].dataset.src) { prime(slides[next]); return; }
+        slides[i].classList.remove("is-active");
+        slides[next].classList.add("is-active");
+        i = next;
+        prime(slides[(next + 1) % slides.length]);
+      }, 4000);
+    });
   });
-
 
   /* ---------- Count-up stats ---------- */
   var counters = document.querySelectorAll("[data-count]");
